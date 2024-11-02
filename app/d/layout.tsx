@@ -12,6 +12,7 @@ type Props = {
   children?: React.ReactNode;
 };
 export default function Page({ children }: Props) {
+  //get files data here
   return (
     <SidebarProvider
       style={

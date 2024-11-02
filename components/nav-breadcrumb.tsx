@@ -7,18 +7,40 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
+import { usePathname } from "next/navigation";
+import { capitalize } from "@/lib/utils";
 
 type Props = {};
 
 const NavBreadcrumb = (props: Props) => {
+  const pathname = usePathname();
+  const paths = pathname.split("/").slice(1);
+  const last = paths.pop();
+  const fileId = paths.length > 2 ? paths.at(2) : null;
+
   return (
     <>
-      <BreadcrumbItem className="hidden md:block">
-        <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator className="hidden md:block" />
+      {paths.map((path) => (
+        <>
+          <BreadcrumbItem className="hidden md:block" key={path + "ko"}>
+            <BreadcrumbLink
+              href={
+                path === "d"
+                  ? "/d/files"
+                  : fileId
+                  ? "/d/files/" + fileId
+                  : "/d/" + path
+              }
+            >
+              {path === "d" ? "Dashboard" : capitalize(path)}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator key={path + "sep"} className="hidden md:block" />
+        </>
+      ))}
+
       <BreadcrumbItem>
-        <BreadcrumbPage>Inbox</BreadcrumbPage>
+        <BreadcrumbPage>{last}</BreadcrumbPage>
       </BreadcrumbItem>
     </>
   );

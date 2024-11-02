@@ -1,5 +1,12 @@
 "use client";
-import { ChartArea, ChartBarBig, Files, LayoutDashboard } from "lucide-react";
+
+import {
+  ChartArea,
+  ChartBarBig,
+  Files,
+  Grid2X2,
+  LayoutDashboard,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -7,23 +14,22 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
-  SidebarInput,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "./ui/sidebar";
 import { NavUser } from "./nav-user";
-import { Label } from "./ui/label";
-import { Switch } from "./ui/switch";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { capitalize } from "@/lib/utils";
 import ChartTab from "./sidetab/chart-tab";
 import FileTab from "./sidetab/file-tab";
 import DashboardTab from "./sidetab/dashboard-tab";
+import DataTab from "./sidetab/data-tab";
+import WelcomeTab from "./sidetab/welcome-tab";
 
-const data = {
+const data = (fileId: string) => ({
   navMain: [
     {
       title: "Files",
@@ -32,29 +38,36 @@ const data = {
       isActive: true,
     },
     {
+      title: "Data",
+      url: `/d/files/${fileId}/data`,
+      icon: Grid2X2,
+      isActive: true,
+    },
+    {
       title: "Charts",
-      url: "/d/charts",
+      url: `/d/files/${fileId}/charts`,
       icon: ChartArea,
       isActive: false,
     },
     {
       title: "Dashboard",
-      url: "/d/dashboards",
+      url: `/d/files/${fileId}/dashboards`,
       icon: LayoutDashboard,
       isActive: false,
     },
   ],
-};
+});
 
 export default function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  // Note: I'm using state to show active item.
-  // IRL you should use the url/router.
   const pathname = usePathname();
   const { setOpen } = useSidebar();
   const router = useRouter();
-  const activeItem = pathname.split("/").pop()?.toLowerCase();
+  const splittedPathname = pathname.split("/");
+  const isFile = splittedPathname.length <= 3;
+  const fileId = splittedPathname.at(3) || "";
+  const activeItem = splittedPathname.at(-1);
   return (
     <Sidebar
       collapsible="icon"
@@ -88,7 +101,7 @@ export default function AppSidebar({
           <SidebarGroup>
             <SidebarGroupContent className="px-1.5 md:px-0">
               <SidebarMenu>
-                {data.navMain.map((item) => (
+                {data(fileId || "").navMain.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       tooltip={{
@@ -99,7 +112,10 @@ export default function AppSidebar({
                         router.push(item.url);
                         setOpen(true);
                       }}
-                      isActive={pathname.includes(item.title.toLowerCase())}
+                      disabled={!fileId && item.url !== "/d/files"}
+                      isActive={pathname.includes(
+                        `/${item.title.toLowerCase()}/`
+                      )}
                     >
                       <item.icon />
                       <span>{item.title}</span>
@@ -128,15 +144,19 @@ export default function AppSidebar({
               <Switch className="shadow-none" />
             </Label> */}
           </div>
-          <SidebarInput placeholder="Type to search..." />
+          {/* <SidebarInput placeholder="Type to search..." /> */}
         </SidebarHeader>
         <SidebarContent>
-          {activeItem === "charts" ? (
-            <ChartTab />
-          ) : activeItem === "files" ? (
+          {isFile ? (
             <FileTab />
-          ) : (
+          ) : activeItem === "charts" ? (
+            <ChartTab />
+          ) : activeItem === "dashboards" ? (
             <DashboardTab />
+          ) : activeItem === "data" ? (
+            <DataTab />
+          ) : (
+            <WelcomeTab />
           )}
         </SidebarContent>
       </Sidebar>
