@@ -11,7 +11,7 @@ export const useGoogleAuth = () => {
       return signIn.authenticateWithRedirect({
         strategy,
         redirectUrl: "/callback",
-        redirectUrlComplete: "/dashboard",
+        redirectUrlComplete: "/d",
       });
     } catch (error) {
       console.error(error);
@@ -24,7 +24,7 @@ export const useGoogleAuth = () => {
       return signUp.authenticateWithRedirect({
         strategy,
         redirectUrl: "/callback",
-        redirectUrlComplete: "/dashboard",
+        redirectUrlComplete: "/d",
       });
     } catch (error) {
       console.error(error);

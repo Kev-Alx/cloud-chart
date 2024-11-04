@@ -10,9 +10,7 @@ import {
 import { usePathname } from "next/navigation";
 import { capitalize } from "@/lib/utils";
 
-type Props = {};
-
-const NavBreadcrumb = (props: Props) => {
+const NavBreadcrumb = () => {
   const pathname = usePathname();
   const paths = pathname.split("/").slice(1);
   const last = paths.pop();
@@ -40,7 +38,7 @@ const NavBreadcrumb = (props: Props) => {
       ))}
 
       <BreadcrumbItem>
-        <BreadcrumbPage>{last}</BreadcrumbPage>
+        <BreadcrumbPage>{capitalize("" + last)}</BreadcrumbPage>
       </BreadcrumbItem>
     </>
   );

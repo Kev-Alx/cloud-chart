@@ -50,7 +50,7 @@ const data = (fileId: string) => ({
       isActive: false,
     },
     {
-      title: "Dashboard",
+      title: "Dashboards",
       url: `/d/files/${fileId}/dashboards`,
       icon: LayoutDashboard,
       isActive: false,
@@ -113,9 +113,7 @@ export default function AppSidebar({
                         setOpen(true);
                       }}
                       disabled={!fileId && item.url !== "/d/files"}
-                      isActive={pathname.includes(
-                        `/${item.title.toLowerCase()}/`
-                      )}
+                      isActive={pathname === item.url}
                     >
                       <item.icon />
                       <span>{item.title}</span>
