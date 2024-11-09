@@ -33,11 +33,6 @@ body {
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
     --radius: 0.5rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -68,11 +63,6 @@ body {
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -82,6 +72,35 @@ body {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+}
+
+.theme-one {
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+}
+.theme-two {
+  --chart-1: 221.2 83.2% 53.3%;
+  --chart-2: 212 95% 68%;
+  --chart-3: 216 92% 60%;
+  --chart-4: 210 98% 78%;
+  --chart-5: 212 97% 87%;
+}
+.theme-three {
+  --chart-1: 347 77% 50%;
+  --chart-2: 352 83% 91%;
+  --chart-3: 350 80% 72%;
+  --chart-4: 351 83% 82%;
+  --chart-5: 349 77% 62%;
+}
+.theme-four {
+  --chart-1: 139 65% 20%;
+  --chart-2: 140 74% 44%;
+  --chart-3: 142 88% 28%;
+  --chart-4: 137 55% 15%;
+  --chart-5: 141 40% 9%;
 }
 
 @layer base {
@@ -95,7 +114,7 @@ body {
 
 /* Chrome, Safari, Edge */
 *::-webkit-scrollbar {
-  width: 12px; /* Width of vertical scrollbar */
+  width: 10px; /* Width of vertical scrollbar */
   height: 12px; /* Height of horizontal scrollbar */
 }
 
@@ -104,7 +123,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #c14747; /* Scrollbar color */
+  background-color: #1e293b; /* Scrollbar color */
   border-radius: 16px; /* Rounded edges */
   border: 2px solid #f1f1f1; /* Space around scrollbar thumb */
 }

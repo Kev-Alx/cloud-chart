@@ -1,4 +1,6 @@
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -9,6 +11,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { CHART_OPTIONS } from "@/lib/constants";
 import { useChartStore } from "@/lib/store";
+import { capitalize, splitText } from "@/lib/utils";
 
 const ChartConfig = () => {
   const { chartType, chartOptions, setChartType, setChartOptions } =
@@ -28,71 +31,80 @@ const ChartConfig = () => {
 
   return (
     <div>
-      <h1>Chart Type:</h1>
-      <Select value={chartType} onValueChange={handleChartTypeChange}>
-        <SelectTrigger className="w-32">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {CHART_OPTIONS.map((option) => (
-            <SelectItem key={option.type} value={option.type}>
-              {option.type}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <CardHeader>
+        <CardTitle className="font-medium text-lg">Chart Type</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Select value={chartType} onValueChange={handleChartTypeChange}>
+          <SelectTrigger className="mb-4">
+            <SelectValue placeholder="Select chart type" />
+          </SelectTrigger>
+          <SelectContent>
+            {CHART_OPTIONS.map((option) => (
+              <SelectItem key={option.type} value={option.type}>
+                {capitalize(splitText(option.type, "stacked"))}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-      {currentOptions && (
-        <div className="p-4 space-y-4">
-          <h3>Chart Options</h3>
-          {currentOptions.map((option) => (
-            <div key={option.key}>
-              <label htmlFor={option.key}>{option.label}:</label>
-              {typeof option.type === "string" ? (
-                option.type === "boolean" ? (
-                  <Switch
-                    id={option.key}
-                    // @ts-expect-error key
-                    checked={chartOptions[option.key] as boolean}
-                    onCheckedChange={(checked) =>
-                      handleOptionChange(option.key, checked)
-                    }
-                  />
+        {currentOptions && (
+          <div className="space-y-4">
+            {currentOptions.map((option) => (
+              <div
+                className="flex gap-2 justify-between items-center"
+                key={option.key}
+              >
+                <Label htmlFor={option.key}>{option.label}</Label>
+                {typeof option.type === "string" ? (
+                  option.type === "boolean" ? (
+                    <Switch
+                      id={option.key}
+                      key={option.key}
+                      // @ts-expect-error key
+                      checked={chartOptions[option.key] as boolean}
+                      onCheckedChange={(checked) =>
+                        handleOptionChange(option.key, checked)
+                      }
+                    />
+                  ) : (
+                    <Input
+                      id={option.key}
+                      key={option.key}
+                      type={option.key === "radius" ? "number" : "text"}
+                      // @ts-expect-error key
+                      value={chartOptions[option.key] as string}
+                      onChange={(e) =>
+                        handleOptionChange(option.key, e.target.value)
+                      }
+                    />
+                  )
                 ) : (
-                  <Input
-                    id={option.key}
-                    type="text"
+                  <Select
                     // @ts-expect-error key
                     value={chartOptions[option.key] as string}
-                    onChange={(e) =>
-                      handleOptionChange(option.key, e.target.value)
+                    onValueChange={(value) =>
+                      handleOptionChange(option.key, value)
                     }
-                  />
-                )
-              ) : (
-                <Select
-                  // @ts-expect-error key
-                  value={chartOptions[option.key] as string}
-                  onValueChange={(value) =>
-                    handleOptionChange(option.key, value)
-                  }
-                >
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {option.type.map((value) => (
-                      <SelectItem key={value} value={value}>
-                        {value}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+                    key={option.key}
+                  >
+                    <SelectTrigger className="w-32">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {option.type.map((value) => (
+                        <SelectItem key={value} value={value}>
+                          {capitalize(value)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </CardContent>
     </div>
   );
 };

@@ -10,17 +10,19 @@ import {
 export const useChartConfiguration = () => {
   const xAxisConfig = useXAxisStore((state) => state.config);
   const yAxisConfig = useYAxisStore((state) => state.config);
-  const { chartType, config: chartConfig } = useChartStore() as any;
+  const { chartType, chartOptions } = useChartStore();
   const cartesianConfig = useCartesianStore((state) => state.config);
+  const cartesianEnabled = useCartesianStore((state) => state.enabled);
   const legendConfig = useLegendStore((state) => state.config);
+  const legendEnabled = useLegendStore((state) => state.enabled);
   return {
     xAxis: xAxisConfig,
     yAxis: yAxisConfig,
     chart: {
+      ...chartOptions,
       type: chartType,
-      ...chartConfig,
     },
-    cartesian: cartesianConfig,
-    legend: legendConfig,
+    cartesian: { ...cartesianConfig, cartesianEnabled },
+    legend: { ...legendConfig, legendEnabled },
   };
 };

@@ -1,26 +1,15 @@
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { CloudUpload } from "lucide-react";
-import { SidebarSeparator } from "../ui/sidebar";
-import { url } from "inspector";
+import { SidebarSeparator } from "../../ui/sidebar";
 import Link from "next/link";
+import { mockProjectData } from "@/lib/constants";
 
-type Props = {};
-const data = [
-  {
-    name: "Dataset 1",
-    url: "/d/data/dataset-1",
-  },
-  {
-    name: "Dataset 2",
-    url: "/d/data/dataset-2",
-  },
-  {
-    name: "Dataset 3",
-    url: "/d/data/dataset-3",
-  },
-];
-const DataTab = (props: Props) => {
+type Props = {
+  fileId: string[];
+};
+
+const DataTab = ({ fileId }: Props) => {
   return (
     <div className="p-4">
       <h1 className="font-medium">Your datas</h1>
@@ -29,9 +18,9 @@ const DataTab = (props: Props) => {
         Upload data <CloudUpload />
       </Button>
       <ul className="space-y-2 py-2">
-        {data.map((data, i) => (
+        {mockProjectData.map((data, i) => (
           <Link
-            href={data.url}
+            href={`/d/files/file-${fileId[i]}/data/data-${i}`}
             key={i + "ko"}
             className="hover:bg-white block transition-colors px-2 py-1 rounded-lg cursor-pointer"
           >

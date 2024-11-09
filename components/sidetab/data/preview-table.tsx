@@ -42,13 +42,17 @@ const PreviewTable = (props: Props) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.data.slice(0, 20).map((d, i) => (
-          <TableRow key={`${i}k` + d[0]}>
-            {data.columns.map((_, i) => (
-              <TableCell key={`${i}kc`}>{d[i].toString()}</TableCell>
-            ))}
-          </TableRow>
-        ))}
+        {data.data.slice(0, 20).map((d, i) => {
+          return (
+            <TableRow key={`${i}tr`}>
+              {data.columns.map((col, j) => (
+                <TableCell key={`${j}tc`}>
+                  {d[col.name as keyof typeof d].toString()}
+                </TableCell>
+              ))}
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );

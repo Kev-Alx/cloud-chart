@@ -9,13 +9,19 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useLegendStore } from "@/lib/store";
+import { cn } from "@/lib/utils";
 
 const LegendConfig = () => {
   const { enabled, config, setEnabled, setConfig } = useLegendStore();
 
   return (
-    <div className="mb-4">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <div>
+      <CardHeader
+        className={cn(
+          "flex flex-row items-center justify-between space-y-0 pb-6",
+          enabled && "pb-2"
+        )}
+      >
         <CardTitle className="text-lg font-medium">Legend</CardTitle>
         <Switch checked={enabled} onCheckedChange={setEnabled} />
       </CardHeader>
@@ -50,7 +56,6 @@ const LegendConfig = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="top">Top</SelectItem>
-                <SelectItem value="middle">Middle</SelectItem>
                 <SelectItem value="bottom">Bottom</SelectItem>
               </SelectContent>
             </Select>

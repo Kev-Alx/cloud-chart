@@ -33,8 +33,17 @@ interface YAxisState {
   resetConfig: () => void;
 }
 
-interface ChartConfig {
-  type: string;
+export interface ChartConfig {
+  type:
+    | ""
+    | "line"
+    | "area"
+    | "stackedArea"
+    | "stackedPercent"
+    | "bar"
+    | "stackedBar"
+    | "pie"
+    | "scatter";
   fill: string;
   lineType: "linear" | "smooth" | "step";
   withLabel: boolean;
@@ -42,6 +51,9 @@ interface ChartConfig {
   layout: "horizontal" | "vertical";
   radius: number;
   line: boolean;
+  aggregate: boolean;
+  columns: { name: string; type: string }[];
+  rows: { name: string; type: string }[];
 }
 
 export interface ChartState {
@@ -67,7 +79,7 @@ interface CartesianState {
 
 interface LegendConfig {
   align: "left" | "center" | "right";
-  verticalAlign: "top" | "middle" | "bottom";
+  verticalAlign: "top" | "bottom";
 }
 
 interface LegendState {
@@ -127,18 +139,21 @@ export const useYAxisStore = create<YAxisState>()((set) => ({
 }));
 
 const initialChartConfig = {
-  type: "line",
-  fill: "#000000",
+  type: "",
+  fill: "theme-one",
   lineType: "linear",
   dot: true,
   withLabel: false,
   layout: "horizontal",
   radius: 0,
   line: false,
+  rows: [],
+  columns: [],
+  aggregate: false,
 } satisfies ChartConfig;
 
 export const useChartStore = create<ChartState>()((set) => ({
-  chartType: "line",
+  chartType: "",
   chartOptions: initialChartConfig,
   setChartType: (type) => set({ chartType: type }),
   setChartOptions: (options) => set({ chartOptions: options }),
@@ -187,5 +202,20 @@ export const useLegendStore = create<LegendState>()((set) => ({
         align: "center",
         verticalAlign: "bottom",
       },
+    }),
+}));
+
+interface ActiveDataConfig {
+  dataId: string;
+  setData: (dataId: string) => void;
+  resetData: () => void;
+}
+
+export const useActiveDataStore = create<ActiveDataConfig>()((set) => ({
+  dataId: "Dataset 1",
+  setData: (dataId) => set({ dataId }),
+  resetData: () =>
+    set({
+      dataId: "",
     }),
 }));

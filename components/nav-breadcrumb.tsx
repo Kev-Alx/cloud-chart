@@ -19,8 +19,8 @@ const NavBreadcrumb = () => {
   return (
     <>
       {paths.map((path) => (
-        <>
-          <BreadcrumbItem className="hidden md:block" key={path + "ko"}>
+        <div key={path + "link"} className="flex items-center gap-2">
+          <BreadcrumbItem className="hidden md:block">
             <BreadcrumbLink
               href={
                 path === "d"
@@ -33,8 +33,8 @@ const NavBreadcrumb = () => {
               {path === "d" ? "Dashboard" : capitalize(path)}
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator key={path + "sep"} className="hidden md:block" />
-        </>
+          <BreadcrumbSeparator className="hidden md:block" />
+        </div>
       ))}
 
       <BreadcrumbItem>

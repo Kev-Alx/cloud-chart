@@ -18,7 +18,7 @@ export const AxisConfig = ({ type }: { type: "XAxis" | "YAxis" }) => {
   const { config, setConfig } = store() as any;
 
   return (
-    <div className="mb-4">
+    <div>
       <CardHeader>
         <CardTitle className="text-lg font-medium">
           {type} configuration

@@ -26,7 +26,7 @@ import { capitalize } from "@/lib/utils";
 import ChartTab from "./sidetab/chart-tab";
 import FileTab from "./sidetab/file-tab";
 import DashboardTab from "./sidetab/dashboard-tab";
-import DataTab from "./sidetab/data-tab";
+import DataTab from "./sidetab/data/data-tab";
 import WelcomeTab from "./sidetab/welcome-tab";
 
 const data = (fileId: string) => ({
@@ -67,11 +67,14 @@ export default function AppSidebar({
   const splittedPathname = pathname.split("/");
   const isFile = splittedPathname.length <= 3;
   const fileId = splittedPathname.at(3) || "";
-  const activeItem = splittedPathname.at(-1);
+  const activeItem = splittedPathname.at(
+    splittedPathname.length === 6 ? -2 : -1
+  );
+  console.log(activeItem, isFile);
   return (
     <Sidebar
       collapsible="icon"
-      className="overflow-hidden [&>[data-sidebar=sidebar]]:flex-row"
+      className="overflow-hidden [&>[data-sidebar=sidebar]]:flex-row z-20"
       {...props}
     >
       {/* This is the first sidebar */}
@@ -142,7 +145,6 @@ export default function AppSidebar({
               <Switch className="shadow-none" />
             </Label> */}
           </div>
-          {/* <SidebarInput placeholder="Type to search..." /> */}
         </SidebarHeader>
         <SidebarContent>
           {isFile ? (
@@ -152,7 +154,7 @@ export default function AppSidebar({
           ) : activeItem === "dashboards" ? (
             <DashboardTab />
           ) : activeItem === "data" ? (
-            <DataTab />
+            <DataTab fileId={["1", "2", "3"]} />
           ) : (
             <WelcomeTab />
           )}

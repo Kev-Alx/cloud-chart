@@ -1,0 +1,54 @@
+{
+  "columns": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "age",
+      "type": "number"
+    },
+    {
+      "name": "income",
+      "type": "number"
+    },
+    {
+      "name": "sick",
+      "type": "boolean"
+    },
+    {
+      "name": "dob",
+      "type": "date"
+    }
+  ],
+  "data": [
+    {
+      "name": "Bob",
+      "age": 43,
+      "income": 100,
+      "sick": false,
+      "dob": "2004-10-04T00:00:00"
+    },
+    {
+      "name": "Jonagthan",
+      "age": 45,
+      "income": 200,
+      "sick": true,
+      "dob": "2000-08-09T00:00:00"
+    },
+    {
+      "name": "nathan",
+      "age": 12,
+      "income": 300,
+      "sick": false,
+      "dob": "2034-06-07T00:00:00"
+    },
+    {
+      "name": "randy",
+      "age": 34,
+      "income": 400,
+      "sick": true,
+      "dob": "2003-05-06T00:00:00"
+    }
+  ]
+}

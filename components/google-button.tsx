@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { useGoogleAuth } from "@/hooks/use-google-auth";
-import { Google } from "./icons/google";
 import { Loader } from "./loader";
 
 type GoogleAuthButtonProps = {
@@ -23,10 +22,7 @@ const GoogleAuthButton = ({ method }: GoogleAuthButtonProps) => {
       className="w-full text-black rounded-xl flex gap-3 bg-themeBlack border-themeGray"
       variant="outline"
     >
-      <Loader loading={false}>
-        <Google />
-        Google
-      </Loader>
+      <Loader loading={false}>Google</Loader>
     </Button>
   );
 };
