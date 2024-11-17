@@ -52,7 +52,7 @@ const ChartConfig = () => {
           <div className="space-y-4">
             {currentOptions.map((option) => (
               <div
-                className="flex gap-2 justify-between items-center"
+                className="flex gap-2 justify-between items-center flex-wrap"
                 key={option.key}
               >
                 <Label htmlFor={option.key}>{option.label}</Label>
@@ -99,6 +99,44 @@ const ChartConfig = () => {
                       ))}
                     </SelectContent>
                   </Select>
+                )}
+                {option.key === "aggregate" && chartOptions.aggregate && (
+                  <div className="flex w-full mt-4 flex-col gap-2">
+                    {chartOptions.rows.map((row) => (
+                      <div
+                        key={row.name}
+                        className="flex  justify-between items-center"
+                      >
+                        <Label>{row.name}</Label>
+                        <Select
+                          value={
+                            chartOptions.aggregateMethod.find(
+                              (method) => method.name === row.name
+                            )?.method
+                          }
+                          onValueChange={(value) =>
+                            handleOptionChange(
+                              "aggregateMethod",
+                              chartOptions.aggregateMethod.map((method) =>
+                                method.name === row.name
+                                  ? { ...method, method: value }
+                                  : method
+                              )
+                            )
+                          }
+                        >
+                          <SelectTrigger className="w-32">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="sum">Sum</SelectItem>
+                            <SelectItem value="count">Count</SelectItem>
+                            <SelectItem value="average">Average</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             ))}

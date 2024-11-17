@@ -54,6 +54,7 @@ export interface ChartConfig {
   aggregate: boolean;
   columns: { name: string; type: string }[];
   rows: { name: string; type: string }[];
+  aggregateMethod: { name: string; method: "sum" | "average" | "count" }[];
 }
 
 export interface ChartState {
@@ -150,6 +151,7 @@ const initialChartConfig = {
   rows: [],
   columns: [],
   aggregate: false,
+  aggregateMethod: [],
 } satisfies ChartConfig;
 
 export const useChartStore = create<ChartState>()((set) => ({
@@ -218,4 +220,18 @@ export const useActiveDataStore = create<ActiveDataConfig>()((set) => ({
     set({
       dataId: "",
     }),
+}));
+
+interface ImageStore {
+  getDivJpeg: (() => Promise<string | undefined>) | null;
+  divRef: React.RefObject<HTMLDivElement> | null;
+  setGetDivJpeg: (fn: (() => Promise<string | undefined>) | null) => void;
+  setDivRef: (ref: React.RefObject<HTMLDivElement> | null) => void;
+}
+
+export const useImageStore = create<ImageStore>((set) => ({
+  getDivJpeg: null,
+  divRef: null,
+  setGetDivJpeg: (fn) => set({ getDivJpeg: fn }),
+  setDivRef: (ref) => set({ divRef: ref }),
 }));

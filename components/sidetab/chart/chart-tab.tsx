@@ -1,21 +1,21 @@
 "use client";
 import React from "react";
-import { AxisConfig } from "./chart/axis-config";
-import LegendConfig from "./chart/legend-config";
-import CartesianConfig from "./chart/cartesian-config";
-import ChartConfig from "./chart/chart-config";
-import { SidebarSeparator } from "../ui/sidebar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import ColumnPicker from "./chart/column-picker";
+import { AxisConfig } from "./axis-config";
+import LegendConfig from "./legend-config";
+import CartesianConfig from "./cartesian-config";
+import ChartConfig from "./chart-config";
+import { SidebarSeparator } from "../../ui/sidebar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
+import ColumnPicker from "./column-picker";
 import { useChartStore } from "@/lib/store";
 
 const ChartTab = () => {
   const { chartType } = useChartStore();
   return (
-    <div className="pb-4">
+    <div className="pb-4 relative">
       <div>
         <Tabs defaultValue="data">
-          <TabsList className="w-full">
+          <TabsList className="w-full sticky top-0">
             <TabsTrigger value="data" className="w-full">
               Data
             </TabsTrigger>
@@ -28,9 +28,13 @@ const ChartTab = () => {
           </TabsContent>
           <TabsContent value="chart">
             <ChartConfig />
-            <SidebarSeparator />
-            <AxisConfig type="XAxis" />
-            <AxisConfig type="YAxis" />
+            {!["pie"].includes(chartType) && (
+              <>
+                <SidebarSeparator />
+                <AxisConfig type="XAxis" />
+                <AxisConfig type="YAxis" />
+              </>
+            )}
             {!["scatter"].includes(chartType) && (
               <>
                 <SidebarSeparator />

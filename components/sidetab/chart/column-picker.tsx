@@ -1,11 +1,12 @@
 "use client";
 
-import { mockProjectData } from "@/lib/constants";
+import { mockProjectData, TYPE_ICON_MAP } from "@/lib/constants";
 import { useActiveDataStore, useChartStore } from "@/lib/store";
 import titanic from "@/ex.json";
 import React from "react";
 import { cn } from "@/lib/utils";
 import ColDraggable from "./col-draggable";
+import { SidebarSeparator } from "@/components/ui/sidebar";
 
 type Props = {};
 
@@ -30,12 +31,22 @@ const ColumnPicker = (props: Props) => {
           {data.name}
         </div>
       ))}
-      <ol>
+      <SidebarSeparator className="my-4" />
+      <ol className="space-y-2">
         {mockProjectData
           .filter((data) => data.name === dataId)[0]
-          .data.columns.map((col, i) => (
-            <ColDraggable column={col} key={i} />
-          ))}
+          .data.columns.map((col, i) => {
+            const IconComponent =
+              TYPE_ICON_MAP[col.type as keyof typeof TYPE_ICON_MAP];
+            return (
+              <ColDraggable
+                IconComponent={IconComponent}
+                className="py-1 px-2 bg-white rounded-md"
+                column={col}
+                key={i}
+              />
+            );
+          })}
       </ol>
     </div>
   );

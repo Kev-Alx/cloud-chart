@@ -19,15 +19,28 @@ import {
 import { useMeasure } from "@uidotdev/usehooks";
 import { useChartConfiguration } from "@/hooks/use-chart-config";
 import PreviewTable from "@/components/sidetab/data/preview-table";
-
+import DashboardSheet from "@/components/sidetab/dashboard/dashboard-sheet";
+import titan from "@/ex.json";
+import { aggregateData } from "@/lib/utils";
 export default function Page() {
-  const [ref, { width, height }] = useMeasure();
-  const { xAxis, yAxis, cartesian, legend } = useChartConfiguration();
   // useEffect(() => {
   //   console.log(xAxis, yAxis, cartesian, legend);
   // }, [xAxis, yAxis, cartesian, legend]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // console.log(titan);
+  // console.log(
+  //   aggregateData(
+  //     titan.data as any,
+  //     "Pclass",
+  //     ["Survived", "Age"],
+  //     [
+  //       { name: "Survived", method: "sum" },
+  //       { name: "Age", method: "count" },
+  //     ]
+  //   )
+  // );
   return (
-    <main ref={ref} className="w-full h-screen">
+    <main className="w-full h-screen">
       {/* <LineChart data={data} width={width as number} height={height as number}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} horizontal />
         <XAxis
@@ -84,8 +97,7 @@ export default function Page() {
         <XAxis type="number" dataKey="uv" hide />
         <YAxis type="category" dataKey="name" />
       </BarChart> */}
-
-      <PreviewTable />
+      <DashboardSheet />
     </main>
   );
 }

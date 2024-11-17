@@ -20,7 +20,7 @@ const ColDroppable = ({ name, label }: Props) => {
       </p>
       <div
         ref={setNodeRef}
-        className="flex gap-2 items-center bg-slate-100 rounded-lg flex-1"
+        className="flex gap-2 items-center bg-slate-100 rounded-full flex-1"
       >
         {chartOptions[name].map((col, i) => (
           <div
@@ -33,6 +33,9 @@ const ColDroppable = ({ name, label }: Props) => {
                 setChartOptions({
                   ...chartOptions,
                   [name]: chartOptions[name].filter((c) => c.name !== col.name),
+                  aggregateMethod: chartOptions.aggregateMethod.filter(
+                    (c) => c.name !== col.name
+                  ),
                 });
               }}
               className="h-5 w-5 cursor-pointer hover:text-slate-300"

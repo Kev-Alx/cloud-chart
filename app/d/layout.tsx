@@ -9,10 +9,14 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import ChartActions from "@/components/workspace/chart-actions";
+import { ImageGenerationProvider } from "@/components/workspace/image-ctx";
+import { useChartConfiguration } from "@/hooks/use-chart-config";
 import { useColumn } from "@/hooks/use-column";
-import { cn } from "@/lib/utils";
+import { capitalize, cn } from "@/lib/utils";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -24,6 +28,10 @@ export default function Page({ children }: Props) {
   const { handleDragEnd, handleDragStart, activeColumn } = useColumn();
   const pathname = usePathname();
   const isData = pathname.includes("/data/");
+  const { chart } = useChartConfiguration();
+  useEffect(() => {
+    console.log(chart);
+  }, [chart]);
   //get files data here
   return (
     <SidebarProvider
@@ -36,22 +44,29 @@ export default function Page({ children }: Props) {
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         <AppSidebar />
         <SidebarInset className="relative overflow-x-auto">
-          <header className="sticky top-0 flex shrink-0 items-center gap-2 z-10 border-b bg-background p-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <NavBreadcrumb />
-              </BreadcrumbList>
-            </Breadcrumb>
-          </header>
-          {children}
+          <ImageGenerationProvider>
+            <header className="sticky min-h-14 top-0 flex shrink-0 items-center gap-2 z-10 border-b bg-background p-4 py-2">
+              <SidebarTrigger className="-ml-1" />
+              <Separator orientation="vertical" className="mr-2 h-4" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <NavBreadcrumb />
+                </BreadcrumbList>
+              </Breadcrumb>
+              <ChartActions />
+            </header>
+            {children}
+          </ImageGenerationProvider>
           <footer className={cn("w-full", isData && "fixed bottom-0")}>
             <BottomBar />
           </footer>
         </SidebarInset>
         <DragOverlay>
-          {activeColumn ? <div>{activeColumn}</div> : null}
+          {activeColumn ? (
+            <div className="py-1 px-2 bg-slate-900 text-slate-50 rounded-full">
+              {capitalize(activeColumn)}
+            </div>
+          ) : null}
         </DragOverlay>
       </DndContext>
     </SidebarProvider>

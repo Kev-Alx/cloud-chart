@@ -7,7 +7,7 @@ export const useColumn = () => {
   const [activeColumn, setDraggedColumn] = useState<string | null>(null);
   const { setChartOptions, chartOptions, chartType } = useChartStore();
   function handleDragStart(event: any) {
-    setDraggedColumn(event.active.id);
+    setDraggedColumn(event.active.data.current.val.name);
   }
   function handleDragEnd(event: any) {
     const { active, over } = event;
@@ -26,6 +26,10 @@ export const useColumn = () => {
         setChartOptions({
           ...chartOptions,
           rows: [...chartOptions.rows, active.data.current.val],
+          aggregateMethod: [
+            ...chartOptions.aggregateMethod,
+            { name: active.data.current.val.name, method: "sum" },
+          ],
         });
       }
     }

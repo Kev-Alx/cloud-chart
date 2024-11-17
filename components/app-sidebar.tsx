@@ -23,9 +23,9 @@ import { NavUser } from "./nav-user";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { capitalize } from "@/lib/utils";
-import ChartTab from "./sidetab/chart-tab";
+import ChartTab from "./sidetab/chart/chart-tab";
 import FileTab from "./sidetab/file-tab";
-import DashboardTab from "./sidetab/dashboard-tab";
+import DashboardTab from "./sidetab/dashboard/dashboard-tab";
 import DataTab from "./sidetab/data/data-tab";
 import WelcomeTab from "./sidetab/welcome-tab";
 
@@ -70,7 +70,6 @@ export default function AppSidebar({
   const activeItem = splittedPathname.at(
     splittedPathname.length === 6 ? -2 : -1
   );
-  console.log(activeItem, isFile);
   return (
     <Sidebar
       collapsible="icon"

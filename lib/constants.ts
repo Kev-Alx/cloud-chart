@@ -13,6 +13,7 @@ export const CHART_OPTIONS = [
       { label: "Type", key: "lineType", type: ["monotone", "linear", "step"] }, // string
       { label: "Dot", key: "dot", type: "boolean" }, // bool
       { label: "With label", key: "withLabel", type: "boolean" }, // bool
+      { label: "Aggregate data", key: "aggregate", type: "boolean" },
     ],
   },
   {
@@ -25,6 +26,7 @@ export const CHART_OPTIONS = [
       }, // string
       { label: "Type", key: "lineType", type: ["monotone", "linear", "step"] }, // string
       { label: "With label", key: "withLabel", type: "boolean" }, // bool
+      { label: "Aggregate data", key: "aggregate", type: "boolean" },
     ],
   },
   {
@@ -36,6 +38,7 @@ export const CHART_OPTIONS = [
         type: ["theme-one", "theme-two", "theme-three", "theme-four"],
       }, // string
       { label: "Type", key: "lineType", type: ["monotone", "linear", "step"] }, // string
+      { label: "Aggregate data", key: "aggregate", type: "boolean" },
     ],
   },
   {
@@ -47,6 +50,7 @@ export const CHART_OPTIONS = [
         type: ["theme-one", "theme-two", "theme-three", "theme-four"],
       }, // string
       { label: "Type", key: "lineType", type: ["monotone", "linear", "step"] }, // string
+      { label: "Aggregate data", key: "aggregate", type: "boolean" },
     ],
   },
   {
@@ -60,6 +64,7 @@ export const CHART_OPTIONS = [
       { label: "Radius", key: "radius", type: "radius" }, // number
       { label: "Layout", key: "layout", type: ["horizontal", "vertical"] }, // string
       { label: "With label", key: "withLabel", type: "boolean" }, // bool
+      { label: "Aggregate data", key: "aggregate", type: "boolean" }, // bool
     ],
   },
   {
@@ -72,6 +77,7 @@ export const CHART_OPTIONS = [
       }, // string
       { label: "Radius", key: "radius", type: "radius" }, // number
       { label: "Layout", key: "layout", type: ["horizontal", "vertical"] }, // string
+      { label: "Aggregate data", key: "aggregate", type: "boolean" }, // bool
     ],
   },
   {
@@ -94,7 +100,6 @@ export const CHART_OPTIONS = [
         key: "fill",
         type: ["theme-one", "theme-two", "theme-three", "theme-four"],
       }, // string
-      { label: "Shape", key: "shape", type: "number" }, // number
       { label: "Line", key: "line", type: "boolean" }, //bool <= wrap as line scatter type
     ],
   },
