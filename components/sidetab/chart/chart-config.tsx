@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,9 +11,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Toggle } from "@/components/ui/toggle";
 import { CHART_OPTIONS } from "@/lib/constants";
 import { useChartStore } from "@/lib/store";
 import { capitalize, splitText } from "@/lib/utils";
+import {
+  ALargeSmallIcon,
+  AlignCenterIcon,
+  AlignLeftIcon,
+  AlignRightIcon,
+  ArrowDown,
+  ArrowUp,
+  BoldIcon,
+} from "lucide-react";
 
 const ChartConfig = () => {
   const { chartType, chartOptions, setChartType, setChartOptions } =
@@ -47,7 +59,80 @@ const ChartConfig = () => {
             ))}
           </SelectContent>
         </Select>
-
+        {chartType !== "" && (
+          <div>
+            <Label htmlFor={"title"}>Title</Label>
+            <Input
+              id="title"
+              type={"text"}
+              className="mb-2"
+              value={chartOptions["title"] as string}
+              onChange={(e) => handleOptionChange("title", e.target.value)}
+            />
+            <div className="flex justify-between gap-4 mb-4">
+              <Toggle
+                pressed={chartOptions.titleConfig.bold}
+                onPressedChange={() =>
+                  handleOptionChange("titleConfig", {
+                    ...chartOptions.titleConfig,
+                    bold: !chartOptions.titleConfig.bold,
+                  })
+                }
+              >
+                <BoldIcon />
+              </Toggle>
+              <Toggle
+                pressed={chartOptions.titleConfig.size}
+                onPressedChange={() =>
+                  handleOptionChange("titleConfig", {
+                    ...chartOptions.titleConfig,
+                    size: !chartOptions.titleConfig.size,
+                  })
+                }
+              >
+                <ALargeSmallIcon />
+              </Toggle>
+              <ButtonGroup>
+                <Button
+                  onClick={() =>
+                    handleOptionChange("titleConfig", {
+                      ...chartOptions.titleConfig,
+                      align: "left",
+                    })
+                  }
+                  className="p-3"
+                  variant={"outline"}
+                >
+                  <AlignLeftIcon />
+                </Button>
+                <Button
+                  onClick={() =>
+                    handleOptionChange("titleConfig", {
+                      ...chartOptions.titleConfig,
+                      align: "center",
+                    })
+                  }
+                  className="p-3"
+                  variant={"outline"}
+                >
+                  <AlignCenterIcon />
+                </Button>
+                <Button
+                  onClick={() =>
+                    handleOptionChange("titleConfig", {
+                      ...chartOptions.titleConfig,
+                      align: "right",
+                    })
+                  }
+                  className="p-3"
+                  variant={"outline"}
+                >
+                  <AlignRightIcon />
+                </Button>
+              </ButtonGroup>
+            </div>
+          </div>
+        )}
         {currentOptions && (
           <div className="space-y-4">
             {currentOptions.map((option) => (
@@ -107,7 +192,7 @@ const ChartConfig = () => {
                         key={row.name}
                         className="flex  justify-between items-center"
                       >
-                        <Label>{row.name}</Label>
+                        <Label>{capitalize(row.name)}</Label>
                         <Select
                           value={
                             chartOptions.aggregateMethod.find(
@@ -132,6 +217,8 @@ const ChartConfig = () => {
                             <SelectItem value="sum">Sum</SelectItem>
                             <SelectItem value="count">Count</SelectItem>
                             <SelectItem value="average">Average</SelectItem>
+                            <SelectItem value="min">Min</SelectItem>
+                            <SelectItem value="max">Max</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -140,6 +227,47 @@ const ChartConfig = () => {
                 )}
               </div>
             ))}
+            {!["pie", "scatter"].includes(chartType) && (
+              <div className="flex gap-2 justify-between items-center">
+                <Label htmlFor={"sortBy"}>Sort by</Label>
+                <Select
+                  value={chartOptions.sortBy.by}
+                  onValueChange={(v) =>
+                    handleOptionChange("sortBy", {
+                      ...chartOptions.sortBy,
+                      by: v,
+                    })
+                  }
+                >
+                  <SelectTrigger className="w-32">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {chartOptions.rows.map((row) => (
+                      <SelectItem key={row.name} value={row.name}>
+                        {capitalize(row.name)}
+                      </SelectItem>
+                    ))}
+                    {chartOptions.columns.map((column) => (
+                      <SelectItem key={column.name} value={column.name}>
+                        {capitalize(column.name)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Toggle
+                  pressed={chartOptions.sortBy.ascending}
+                  onPressedChange={(v) =>
+                    handleOptionChange("sortBy", {
+                      ...chartOptions.sortBy,
+                      ascending: v,
+                    })
+                  }
+                >
+                  {chartOptions.sortBy.ascending ? <ArrowUp /> : <ArrowDown />}
+                </Toggle>
+              </div>
+            )}
           </div>
         )}
       </CardContent>

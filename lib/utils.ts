@@ -14,8 +14,7 @@ export function splitText(input: string, splitBy: string) {
   if (!input.includes(splitBy)) return input;
   return splitBy + input.split(splitBy).join(" ");
 }
-
-type AggregationMethod = "sum" | "count" | "average";
+export type AggregationMethod = "sum" | "count" | "average" | "min" | "max";
 interface AgrMtd {
   name: string;
   method: AggregationMethod;
@@ -59,7 +58,7 @@ export function aggregateData<T extends DataRow>(
               break;
             case "count":
               aggregatedRow[name] = groupData.filter(
-                (item) => item[row] !== undefined || item[row] !== null
+                (item) => item[row] !== undefined && item[row] !== null
               ).length;
               break;
             case "average":
@@ -68,9 +67,23 @@ export function aggregateData<T extends DataRow>(
                 0
               );
               const count = groupData.filter(
-                (item) => item[row] !== undefined || item[row] !== null
+                (item) => item[row] !== undefined && item[row] !== null
               ).length;
               aggregatedRow[name] = count > 0 ? sum / count : 0;
+              break;
+            case "min":
+              aggregatedRow[name] = Math.min(
+                ...groupData
+                  .map((item) => item[row])
+                  .filter((value) => value !== undefined && value !== null)
+              );
+              break;
+            case "max":
+              aggregatedRow[name] = Math.max(
+                ...groupData
+                  .map((item) => item[row])
+                  .filter((value) => value !== undefined && value !== null)
+              );
               break;
           }
         }
@@ -81,4 +94,16 @@ export function aggregateData<T extends DataRow>(
   }
 
   return result;
+}
+
+export function sortData<T>(data: T[], key: keyof T, ascending: boolean): T[] {
+  return data.sort((a, b) => {
+    if (a[key] < b[key]) {
+      return ascending ? -1 : 1;
+    }
+    if (a[key] > b[key]) {
+      return ascending ? 1 : -1;
+    }
+    return 0;
+  });
 }

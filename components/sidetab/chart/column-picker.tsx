@@ -15,7 +15,7 @@ const ColumnPicker = (props: Props) => {
   const { setChartOptions, chartOptions } = useChartStore();
   return (
     <div className="p-4">
-      <h1>Choose dataset for this chart</h1>
+      <h1 className="mb-2">Choose dataset for this chart</h1>
       {mockProjectData.map((data) => (
         <div
           onClick={() => {
@@ -25,7 +25,7 @@ const ColumnPicker = (props: Props) => {
           key={data.name}
           className={cn(
             "p-2 rounded-lg cursor-pointer",
-            data.name === dataId ? "bg-emerald-300" : ""
+            data.name === dataId ? "bg-slate-800 text-white" : ""
           )}
         >
           {data.name}

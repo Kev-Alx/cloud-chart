@@ -32,6 +32,11 @@ interface YAxisState {
   ) => void;
   resetConfig: () => void;
 }
+type TitleConfig = {
+  bold: boolean;
+  size: boolean;
+  align: "left" | "center" | "right";
+};
 
 export interface ChartConfig {
   type:
@@ -45,12 +50,18 @@ export interface ChartConfig {
     | "pie"
     | "scatter";
   fill: string;
-  lineType: "linear" | "smooth" | "step";
+  title: string;
+  titleConfig: TitleConfig;
+  lineType: "linear" | "monotone" | "step";
   withLabel: boolean;
   dot: boolean;
   layout: "horizontal" | "vertical";
   radius: number;
   line: boolean;
+  sortBy: {
+    by: string;
+    ascending: boolean;
+  };
   aggregate: boolean;
   columns: { name: string; type: string }[];
   rows: { name: string; type: string }[];
@@ -141,16 +152,26 @@ export const useYAxisStore = create<YAxisState>()((set) => ({
 
 const initialChartConfig = {
   type: "",
+  title: "",
+  titleConfig: {
+    align: "center",
+    bold: false,
+    size: false,
+  },
   fill: "theme-one",
-  lineType: "linear",
+  lineType: "monotone",
   dot: true,
   withLabel: false,
   layout: "horizontal",
   radius: 0,
   line: false,
   rows: [],
+  sortBy: {
+    by: "",
+    ascending: true,
+  },
   columns: [],
-  aggregate: false,
+  aggregate: true,
   aggregateMethod: [],
 } satisfies ChartConfig;
 

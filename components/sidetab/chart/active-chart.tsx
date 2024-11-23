@@ -4,7 +4,7 @@ import { useImageGeneration } from "@/components/workspace/image-ctx";
 import { useChartConfiguration } from "@/hooks/use-chart-config";
 import { mockProjectData } from "@/lib/constants";
 import { useActiveDataStore } from "@/lib/store";
-import { aggregateData } from "@/lib/utils";
+import { aggregateData, cn, sortData } from "@/lib/utils";
 import React from "react";
 import {
   Area,
@@ -84,6 +84,15 @@ const ActiveChart = ({ dimension }: Props) => {
       chart.aggregateMethod
     );
   }
+  if (!["pie", "scatter"].includes(chart.type) && chart.sortBy.by.length > 0) {
+    console.log(transformedData);
+    transformedData = sortData(
+      transformedData,
+      chart.columns[0].name === chart.sortBy.by ? "name" : chart.sortBy.by,
+      chart.sortBy.ascending
+    );
+    console.log(transformedData);
+  }
   if (chart.type === "")
     return (
       <div className="w-full h-full grid text-center place-items-center">
@@ -92,10 +101,32 @@ const ActiveChart = ({ dimension }: Props) => {
     );
 
   return (
-    <div ref={ctx?.divRef}>
+    <div
+      ref={ctx?.divRef}
+      className={cn(chart.titleConfig.size ? "pt-10" : "pt-6")}
+    >
+      <p
+        className={cn(
+          "absolute top-1",
+          chart.titleConfig.bold && "font-semibold",
+          chart.titleConfig.size && "text-2xl",
+          {
+            "left-4": chart.titleConfig.align === "left",
+            "left-1/2 -translate-x-[50%]": chart.titleConfig.align === "center",
+            "right-4": chart.titleConfig.align === "right",
+          }
+        )}
+      >
+        {chart.title}
+      </p>
       {chart.type === "line" && (
         <LineChart
-          className="p-3 border border-slate-100"
+          margin={{
+            top: 15,
+            right: 25,
+            left: 15,
+            bottom: legend.legendEnabled || chart.titleConfig.size ? 35 : 20,
+          }}
           data={transformedData}
           width={dimension.width}
           height={dimension.height}
@@ -109,6 +140,7 @@ const ActiveChart = ({ dimension }: Props) => {
           {!xAxis.hide && (
             <XAxis
               className="text-sm"
+              type="category"
               orientation={xAxis.orientation}
               tickLine={xAxis.tickLine ? { stroke: "#9ca3af" } : false}
               axisLine={xAxis.axisLine ? { stroke: "#9ca3af" } : false}
@@ -160,10 +192,16 @@ const ActiveChart = ({ dimension }: Props) => {
       )}
       {chart.type === "area" && (
         <AreaChart
-          className="p-3"
+          margin={{
+            top: 15,
+            right: 25,
+            left: 15,
+            bottom: legend.legendEnabled || chart.titleConfig.size ? 35 : 20,
+          }}
           data={transformedData}
           width={dimension.width}
           height={dimension.height}
+          type="category"
         >
           {cartesian.cartesianEnabled && (
             <CartesianGrid
@@ -226,8 +264,13 @@ const ActiveChart = ({ dimension }: Props) => {
       )}
       {(chart.type === "stackedArea" || chart.type === "stackedPercent") && (
         <AreaChart
-          className="p-3"
           data={transformedData}
+          margin={{
+            top: 15,
+            right: 25,
+            left: 15,
+            bottom: legend.legendEnabled || chart.titleConfig.size ? 35 : 20,
+          }}
           stackOffset={chart.type === "stackedPercent" ? "expand" : undefined}
           width={dimension.width}
           height={dimension.height}
@@ -287,7 +330,12 @@ const ActiveChart = ({ dimension }: Props) => {
         <BarChart
           data={transformedData}
           layout={chart.layout}
-          margin={{ top: 25, right: 20, left: 20, bottom: 20 }}
+          margin={{
+            top: 15,
+            right: 25,
+            left: 15,
+            bottom: legend.legendEnabled || chart.titleConfig.size ? 35 : 20,
+          }}
           width={dimension.width}
           height={dimension.height}
         >
@@ -373,7 +421,12 @@ const ActiveChart = ({ dimension }: Props) => {
       )}
       {chart.type === "pie" && (
         <PieChart
-          margin={{ top: 25, right: 20, left: 20, bottom: 20 }}
+          margin={{
+            top: 20,
+            right: 20,
+            left: 20,
+            bottom: legend.legendEnabled || chart.titleConfig.size ? 35 : 20,
+          }}
           width={dimension.width}
           height={dimension.height}
         >
@@ -419,7 +472,12 @@ const ActiveChart = ({ dimension }: Props) => {
       )}
       {chart.type === "scatter" && (
         <ScatterChart
-          className="p-3"
+          margin={{
+            top: 15,
+            right: 25,
+            left: 15,
+            bottom: legend.legendEnabled || chart.titleConfig.size ? 35 : 20,
+          }}
           width={dimension.width}
           height={dimension.height}
         >

@@ -29,9 +29,6 @@ export default function Page({ children }: Props) {
   const pathname = usePathname();
   const isData = pathname.includes("/data/");
   const { chart } = useChartConfiguration();
-  useEffect(() => {
-    console.log(chart);
-  }, [chart]);
   //get files data here
   return (
     <SidebarProvider

@@ -30,6 +30,13 @@
       "dob": "2004-10-04T00:00:00"
     },
     {
+      "name": "Bob",
+      "age": 76,
+      "income": 170,
+      "sick": false,
+      "dob": "2004-10-04T00:00:00"
+    },
+    {
       "name": "Jonagthan",
       "age": 45,
       "income": 200,

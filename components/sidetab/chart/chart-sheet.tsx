@@ -64,7 +64,7 @@ const ChartSheet = () => {
       </div>
     );
   return (
-    <div className="relative flex flex-col w-full h-full overflow-auto">
+    <div className="relative flex flex-col w-full h-full overflow-hidden">
       <div className="w-full px-2 space-y-1 py-1 border-b border-b-slate-200">
         {chartType !== "pie" ? (
           <>
@@ -78,13 +78,13 @@ const ChartSheet = () => {
 
       <div
         ref={containerRef}
-        className={cn("w-full flex-1 overflow-hidden", chartOptions.fill)}
+        className={cn("w-full flex-1 overflow-auto", chartOptions.fill)}
       >
         <Rnd
           minWidth={250}
           minHeight={250}
-          maxWidth={"96%"}
-          maxHeight={"92%"}
+          maxWidth={"98%"}
+          maxHeight={"94%"}
           size={dimension}
           position={position}
           onResize={(_e, _direction, ref) => {
@@ -96,7 +96,7 @@ const ChartSheet = () => {
           }}
           onResizeStop={handleResizeStop}
           disableDragging
-          className="bg-white border border-slate-200"
+          className="bg-white relative border border-slate-200"
         >
           <ActiveChart data={null} dimension={dimension} />
         </Rnd>
